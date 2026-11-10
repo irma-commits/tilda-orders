@@ -8,10 +8,16 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 
-FEEDS = {
-    "FL.ru": "https://www.fl.ru/rss/all.xml",
-    "Freelancehunt": "https://freelancehunt.com/projects.rss",
-}
+FEEDS = [
+    ("FL.ru", "https://www.fl.ru/rss/all.xml"),
+    ("Freelancehunt", "https://freelancehunt.com/projects.rss"),
+    ("Codeur.com", "https://www.codeur.com/projects.rss"),
+    ("Freelancer.com", "https://www.freelancer.com/rss.xml"),
+    ("Freelancer.com", "https://www.freelancer.com/rss/job_Website-Design.xml"),
+    ("Freelancer.com", "https://www.freelancer.com/rss/job_Web-Design.xml"),
+    ("Freelancer.com", "https://www.freelancer.com/rss/job_Landing-Pages.xml"),
+    ("We Work Remotely", "https://weworkremotely.com/remote-jobs.rss"),
+]
 
 # Слова, по которым отбираются заказы (без учета регистра)
 KEYWORDS = re.compile(r"t[iy]lda|тиль?д|тільд|zero[\s-]?block|зеро[\s-]?блок", re.I)
@@ -58,7 +64,7 @@ def main():
     seen_set = set(seen)
 
     found = 0
-    for source, url in FEEDS.items():
+    for source, url in FEEDS:
         try:
             root = ET.fromstring(fetch(url))
         except Exception as e:
